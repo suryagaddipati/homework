@@ -21,15 +21,12 @@ class MainSpec extends FunSpec with Matchers {
       dateOfBirth
     )
   val recordsGen = Gen.listOf(recordGen)
-  def isSorted[A](as: Array[A], ordered: (A, A) => Boolean): Boolean =
-    if (as.size <= 1) true
-    else ordered(as(0), as(1)) && isSorted(as.drop(1), ordered)
-
   describe("Sorting") {
-    it("Sorts by view 1") {
+    it("Sorts by view 3") {
       forAll(recordsGen) { (records: List[Main.Record]) =>
-        val sortedRecords = Main.sort(records, Main.Views.One)
-        isSorted(sortedRecords.map(_.firstName).toArray, ((x: String, y: String) => x < y)) shouldBe true
+        val sortedByLastNameDesc = Main.sort(records, Main.Views.Three)
+        val lastNames = sortedByLastNameDesc .map(_.lastName)
+        lastNames shouldBe lastNames.sorted(Ordering.by((_: String).size).reverse)
 
       }
     }

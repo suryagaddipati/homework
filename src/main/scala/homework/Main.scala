@@ -4,8 +4,8 @@ object Main extends App {
   println("Hello")
   sealed trait View
   object Views {
-    object One extends View {}
+    object Three extends View {} //sorted by last name, descending.
   }
-  def sort(records: Seq[Record], v: View): Seq[Record] = ???
+  def sort(records: Seq[Record], v: View): Seq[Record] = records
   case class Record(lastName: String, firstName: String, gender: Char, favoriteColor: String, dateOfBirth: Calendar)
 }
