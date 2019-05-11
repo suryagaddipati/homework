@@ -6,7 +6,7 @@ import java.{util => ju}
 import java.util.GregorianCalendar
 import java.util.Locale
 import java.util.regex._
-object Main {
+object Cli {
   def main(args: Array[String]): Unit = {
     val source = scala.io.Source.fromFile("/tmp/files.txt")
     try {
