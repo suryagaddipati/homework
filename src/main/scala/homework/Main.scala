@@ -1,7 +1,13 @@
 package homework
 import java.util.Calendar
 object Main extends App {
-  println("Hello")
+
+  val source = scala.io.Source.fromFile("file.txt")
+  val records = try source.getLines.map(lineToRecord(_,""))
+  finally source.close()
+
+  def lineToRecord(line: String, seperator:String): Record = ???
+
   sealed trait View {
     def sort(records: Seq[Record]): Seq[Record]
   }
