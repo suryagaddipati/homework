@@ -11,7 +11,7 @@ object Main {
     val source = scala.io.Source.fromFile("/tmp/files.txt")
     try {
       val records = source.getLines.map(lineToRecord(_, " | "))
-      sort(records.toIndexedSeq, Views.One).foreach(r => println(formatRecord(r, " | ")))
+      sort(records.toIndexedSeq, "1").foreach(r => println(formatRecord(r, " | ")))
     } finally {
       source.close()
     }
@@ -33,23 +33,14 @@ object Main {
     val date = LocalDate.parse(dateStr, df);
     GregorianCalendar.from(date.atStartOfDay(ZoneId.systemDefault()));
   }
-  sealed trait View {
-    def sort(records: Seq[Record]): Seq[Record]
-  }
-  object Views {
-    object One extends View { // sorted by gender (females before males) then by last name ascending.
-      def sort(records: Seq[Record]): Seq[Record] = {
-        val (m, f) = records.partition(_.gender equals 'M')
-        f.sortBy(_.lastName) union m.sortBy(_.lastName)
-      }
-    }
-    object Two extends View { //sorted by birth date, ascending
-      def sort(records: Seq[Record]): Seq[Record] = records.sortBy(_.dateOfBirth)
-    }
-    object Three extends View { //sorted by last name, descending.
-      def sort(records: Seq[Record]): Seq[Record] = records.sortBy(_.lastName)(Ordering.by((_: String).size).reverse)
-    }
-  }
-  def sort(records: Seq[Record], v: View): Seq[Record] = v.sort(records)
   case class Record(lastName: String, firstName: String, gender: Char, favoriteColor: String, dateOfBirth: Calendar)
+  def sort(records: Seq[Record], view: String): Seq[Record] = view match {
+    case "1" => {
+      val (m, f) = records.partition(_.gender equals 'M')
+      f.sortBy(_.lastName) union m.sortBy(_.lastName)
+    }
+    case "2" => records.sortBy(_.dateOfBirth)
+    case "3" => records.sortBy(_.lastName)(Ordering.by((_: String).size).reverse)
+ 
+  }
 }

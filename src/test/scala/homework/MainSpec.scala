@@ -46,21 +46,21 @@ class MainSpec extends FunSpec with Matchers {
     val recordsGen = Gen.listOf(recordGen)
     it("Sorts by view 3") {
       forAll(recordsGen) { (records: List[Record]) =>
-        val sortedByLastNameDesc = sort(records, Views.Three)
+        val sortedByLastNameDesc = sort(records, "3")
         val lastNames            = sortedByLastNameDesc.map(_.lastName)
         lastNames shouldBe lastNames.sorted(Ordering.by((_: String).size).reverse)
       }
     }
     it("Sorts by view 2") {
       forAll(recordsGen) { (records: List[Record]) =>
-        val sortedByDateAsc    = sort(records, Views.Two)
+        val sortedByDateAsc    = sort(records, "2")
         val dataOfBirthsSorted = sortedByDateAsc.map(_.dateOfBirth)
         dataOfBirthsSorted.map(formatDate) shouldBe dataOfBirthsSorted.sorted.map(formatDate)
       }
     }
     it("Sorts by view 1") {
       forAll(recordsGen) { (records: List[Record]) =>
-        val sortedByGenderLastNameAsc = sort(records, Views.One)
+        val sortedByGenderLastNameAsc = sort(records, "1")
         val (males, females)          = sortedByGenderLastNameAsc.partition(_.gender equals 'M')
         val gendersSorted             = sortedByGenderLastNameAsc.map(_.gender)
         gendersSorted shouldBe gendersSorted.sorted
