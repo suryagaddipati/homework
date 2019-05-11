@@ -7,7 +7,10 @@ object Main extends App {
   }
   object Views {
     object One extends View { // sorted by gender (females before males) then by last name ascending.
-      def sort(records: Seq[Record]): Seq[Record] = records.sortBy(_.gender) 
+      def sort(records: Seq[Record]): Seq[Record] = {
+        val (m, f) = records.partition(_.gender equals 'M')
+        f.sortBy(_.lastName) union m.sortBy(_.lastName)
+      }
     }
     object Two extends View { //sorted by birth date, ascending
       def sort(records: Seq[Record]): Seq[Record] = records.sortBy(_.dateOfBirth)
