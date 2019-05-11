@@ -1,13 +1,26 @@
 package homework
 import java.util.Calendar
+import java.time._
+import java.time.format._
+import java.{util => ju}
+import java.util.GregorianCalendar
+import java.util.Locale
 object Main extends App {
 
   val source = scala.io.Source.fromFile("file.txt")
-  val records = try source.getLines.map(lineToRecord(_,""))
+  val records = try source.getLines.map(lineToRecord(_, '|'))
   finally source.close()
 
-  def lineToRecord(line: String, seperator:String): Record = ???
+  def lineToRecord(line: String, seperator: Char): Record = {
+    val lParts = line.split(seperator).map(_.trim)
+    Record(lParts(0), lParts(1), lParts(2).charAt(0), lParts(3), parseDate(lParts(4)))
+  }
 
+  def parseDate(dateStr: String): ju.Calendar = {
+    val df   = DateTimeFormatter.ofPattern("MM/dd/yyyy", Locale.ENGLISH);
+    val date = LocalDate.parse(dateStr, df);
+    GregorianCalendar.from(date.atStartOfDay(ZoneId.systemDefault()));
+  }
   sealed trait View {
     def sort(records: Seq[Record]): Seq[Record]
   }
