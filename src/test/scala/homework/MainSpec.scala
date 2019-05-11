@@ -68,6 +68,11 @@ class MainSpec extends FunSpec with Matchers {
         females.map(_.lastName) shouldBe females.map(_.lastName).sorted
       }
     }
+    it("Throws Exception on invalid view option"){
+      assertThrows[IllegalArgumentException] { 
+        sort(List(), "55")
+      }
+    }
   }
 
 }

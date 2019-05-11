@@ -41,6 +41,6 @@ object Main {
     }
     case "2" => records.sortBy(_.dateOfBirth)
     case "3" => records.sortBy(_.lastName)(Ordering.by((_: String).size).reverse)
- 
+    case _ => throw new IllegalArgumentException("Choose between view options 1,2,3.") 
   }
 }
