@@ -38,7 +38,6 @@ object Main extends App {
       def sort(records: Seq[Record]): Seq[Record] = records.sortBy(_.lastName)(Ordering.by((_: String).size).reverse)
     }
   }
-  // def sort(records: Seq[Record], v: View): Seq[Record] =
   def sort(records: Seq[Record], v: View): Seq[Record] = v.sort(records)
   case class Record(lastName: String, firstName: String, gender: Char, favoriteColor: String, dateOfBirth: Calendar)
 }
