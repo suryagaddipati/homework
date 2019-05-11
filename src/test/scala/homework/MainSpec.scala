@@ -12,8 +12,7 @@ import java.{util => ju}
 import java.util.GregorianCalendar
 import Main._
 
-
-class pec extends FunSpec with Matchers {
+class MainSpec extends FunSpec with Matchers {
   def formatDate(date: java.util.Calendar): String = {
   val df   = DateTimeFormatter.ofPattern("MM/dd/yyyy", Locale.ENGLISH);
   val zone = ZoneId.systemDefault();
