@@ -8,10 +8,10 @@ import java.util.Locale
 import java.util.regex._
 object Cli {
   def main(args: Array[String]): Unit = {
-    val source = scala.io.Source.fromFile("/tmp/files.txt")
+    val source = scala.io.Source.fromFile(args(0))
     try {
-      val records = source.getLines.map(lineToRecord(_, " | "))
-      sort(records.toIndexedSeq, "1").foreach(r => println(formatRecord(r, " | ")))
+      val records = source.getLines.map(lineToRecord(_, args(1)))
+      sort(records.toIndexedSeq, args(2)).foreach(r => println(formatRecord(r, " | ")))
     } finally {
       source.close()
     }
