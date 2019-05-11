@@ -13,14 +13,17 @@ import java.util.GregorianCalendar
 import Main._
 
 class MainSpec extends FunSpec with Matchers {
-  def formatDate(date: java.util.Calendar): String = {
-  val df   = DateTimeFormatter.ofPattern("MM/dd/yyyy", Locale.ENGLISH);
-  val zone = ZoneId.systemDefault();
-    df.format(LocalDateTime.ofInstant(date.toInstant, zone))
+  describe("Output formatting") {
+
+    it("Prints in the same format as the input") {
+      val record = Record("Meow", "Chairman", 'M', "Red", parseDate("12/26/1893"))
+      assert( formatRecord(record," | ") == "Meow | Chairman | M | Red | 12/26/1893")
+    }
   }
+
   describe("Record Parsing") {
     it("Parses a record from string using the delimiter") {
-      val record = lineToRecord("Meow | Chairman | M | Red | 12/26/1893", '|')
+      val record = lineToRecord("Meow | Chairman | M | Red | 12/26/1893", " | ")
 
       assert(record == Record("Meow", "Chairman", 'M', "Red", parseDate("12/26/1893")))
     }

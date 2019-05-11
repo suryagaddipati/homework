@@ -5,19 +5,31 @@ import java.time.format._
 import java.{util => ju}
 import java.util.GregorianCalendar
 import java.util.Locale
-object Main extends App {
+import java.util.regex._
+object Main {
+  def main(args: Array[String]): Unit = {
+    val source = scala.io.Source.fromFile("/tmp/files.txt")
+    try {
+      val records = source.getLines.map(lineToRecord(_, " | "))
+      sort(records.toIndexedSeq, Views.One).foreach(r => println(formatRecord(r, " | ")))
+    } finally {
+      source.close()
+    }
+  }
+  def formatRecord(r: Record, sep: String): String = List(r.lastName, r.firstName, r.gender, r.favoriteColor, formatDate(r.dateOfBirth)).mkString(sep)
 
-  val source = scala.io.Source.fromFile("file.txt")
-  val records = try source.getLines.map(lineToRecord(_, '|'))
-  finally source.close()
-
-  def lineToRecord(line: String, seperator: Char): Record = {
-    val lParts = line.split(seperator).map(_.trim)
+  def lineToRecord(line: String, seperator: String): Record = {
+    val lParts = line.split(Pattern.quote(seperator)).map(_.trim)
     Record(lParts(0), lParts(1), lParts(2).charAt(0), lParts(3), parseDate(lParts(4)))
   }
 
+  val df = DateTimeFormatter.ofPattern("MM/dd/yyyy", Locale.ENGLISH);
+  def formatDate(date: java.util.Calendar): String = {
+    val zone = ZoneId.systemDefault();
+    df.format(LocalDateTime.ofInstant(date.toInstant, zone))
+  }
+
   def parseDate(dateStr: String): ju.Calendar = {
-    val df   = DateTimeFormatter.ofPattern("MM/dd/yyyy", Locale.ENGLISH);
     val date = LocalDate.parse(dateStr, df);
     GregorianCalendar.from(date.atStartOfDay(ZoneId.systemDefault()));
   }
