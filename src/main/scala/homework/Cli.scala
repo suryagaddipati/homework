@@ -1,5 +1,5 @@
 package homework
-import Records._
+import RecordsImpl._
 object Cli {
   def main(args: Array[String]): Unit = {
     val source = scala.io.Source.fromFile(args(0))

@@ -6,7 +6,12 @@ import java.{util => ju}
 import java.util.GregorianCalendar
 import java.util.Locale
 import java.util.regex._
-object Records{
+case class Record(lastName: String, firstName: String, gender: String, favoriteColor: String, dateOfBirth: String)
+trait Records {
+  def lineToRecord(line: String, seperator: String): Record
+  def sort(records: Seq[Record], view: String): Seq[Record] 
+}
+object RecordsImpl extends Records {
 
   def formatRecord(r: Record, sep: String): String = List(r.lastName, r.firstName, r.gender, r.favoriteColor, r.dateOfBirth).mkString(sep)
 
@@ -25,7 +30,6 @@ object Records{
     val date = LocalDate.parse(dateStr, df);
     GregorianCalendar.from(date.atStartOfDay(ZoneId.systemDefault()));
   }
-  case class Record(lastName: String, firstName: String, gender: String, favoriteColor: String, dateOfBirth: String)
   def sort(records: Seq[Record], view: String): Seq[Record] = view match {
     case "1" => {
       val (m, f) = records.partition(_.gender equals "M")
@@ -33,6 +37,6 @@ object Records{
     }
     case "2" => records.sortBy(r => parseDate(r.dateOfBirth))
     case "3" => records.sortBy(_.lastName)(Ordering.by((_: String).size).reverse)
-    case _ => throw new IllegalArgumentException("Choose between view options 1,2,3.") 
+    case _   => throw new IllegalArgumentException("Choose between view options 1,2,3.")
   }
 }

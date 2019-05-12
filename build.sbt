@@ -12,6 +12,7 @@ lazy val root = (project in file("."))
     libraryDependencies += scalaTest        % Test,
     libraryDependencies += "org.scalactic"  %% "scalactic" % "3.0.5",
     libraryDependencies += "org.scalacheck" %% "scalacheck" % "1.14.0" % "test",
+    libraryDependencies += "org.scalamock" %% "scalamock" % "4.1.0" % Test,
 
       libraryDependencies ++= Seq (
       "org.scalatra"      %% "scalatra"           % ScalatraVersion,

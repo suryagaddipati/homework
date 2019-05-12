@@ -9,7 +9,7 @@ import java.time._
 import java.time.format._
 import java.{util => ju}
 import java.util.GregorianCalendar
-import Records._
+import RecordsImpl._
 import RecordsGen.recordsGen
 
 class CliSpec extends FunSpec with Matchers {
