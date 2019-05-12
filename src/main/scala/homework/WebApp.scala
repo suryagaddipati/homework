@@ -10,8 +10,9 @@ class WebApp(rc: Records, recordList: ListBuffer[Record]) extends ScalatraServle
     contentType = formats("json")
   }
   post("/records") {
-    val recordStr = request.body
-    recordList += rc.lineToRecord(recordStr, " | ")
+    val recordStr = params.get("record").get 
+    val seperator = params.get("seperator").get 
+    recordList += rc.lineToRecord(recordStr, seperator)
   }
   get("/records/gender") {
     rc.sort(recordList, "1")

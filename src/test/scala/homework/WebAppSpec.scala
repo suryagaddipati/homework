@@ -27,6 +27,6 @@ class WebAppSpec extends ScalatraSuite with FunSuiteLike with MockFactory {
 
   test("posting records"){
     (records.lineToRecord _).expects("record"," | ")
-    post("/records","record"){}
+    post("/records",List(("record","record"),("seperator"," | "))){}
   }
 }
