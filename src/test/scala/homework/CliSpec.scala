@@ -16,7 +16,7 @@ class CliSpec extends FunSpec with Matchers {
   describe("Output formatting") {
 
     it("Prints in the same format as the input") {
-      val record = Record("Meow", "Chairman", 'M', "Red", "12/26/1893")
+      val record = Record("Meow", "Chairman", "M", "Red", "12/26/1893")
       assert( formatRecord(record," | ") == "Meow | Chairman | M | Red | 12/26/1893")
     }
   }
@@ -25,14 +25,14 @@ class CliSpec extends FunSpec with Matchers {
     it("Parses a record from string using the delimiter") {
       val record = lineToRecord("Meow | Chairman | M | Red | 12/26/1893", " | ")
 
-      assert(record == Record("Meow", "Chairman", 'M', "Red","12/26/1893"))
+      assert(record == Record("Meow", "Chairman", "M", "Red","12/26/1893"))
     }
   }
   describe("Sorting") {
     val recordGen = for {
       lastName      <- Gen.alphaStr
       firstName     <- Gen.alphaStr
-      gender        <- Gen.oneOf('M', 'F')
+      gender        <- Gen.oneOf("M", "F")
       favoriteColor <- Gen.alphaStr
       dateOfBirth   <- Gen.calendar
     } yield
@@ -61,7 +61,7 @@ class CliSpec extends FunSpec with Matchers {
     it("Sorts by view 1") {
       forAll(recordsGen) { (records: List[Record]) =>
         val sortedByGenderLastNameAsc = sort(records, "1")
-        val (males, females)          = sortedByGenderLastNameAsc.partition(_.gender equals 'M')
+        val (males, females)          = sortedByGenderLastNameAsc.partition(_.gender equals "M")
         val gendersSorted             = sortedByGenderLastNameAsc.map(_.gender)
         gendersSorted shouldBe gendersSorted.sorted
         males.map(_.lastName) shouldBe males.map(_.lastName).sorted
