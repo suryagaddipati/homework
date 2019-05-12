@@ -10,9 +10,9 @@ import java.time._
 import java.time.format._
 import java.{util => ju}
 import java.util.GregorianCalendar
-import Cli._
+import Records._
 
-class CliSpec extends FunSpec with Matchers {
+class RecordsSpec extends FunSpec with Matchers {
   describe("Output formatting") {
 
     it("Prints in the same format as the input") {
