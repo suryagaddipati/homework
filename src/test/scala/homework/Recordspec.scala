@@ -3,7 +3,6 @@ package homework
 import org.scalatest._
 import scala.collection.JavaConverters._
 import org.scalatest.prop.GeneratorDrivenPropertyChecks._
-import org.scalacheck.Gen
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 import java.time._
@@ -11,8 +10,9 @@ import java.time.format._
 import java.{util => ju}
 import java.util.GregorianCalendar
 import Records._
+import RecordsGen.recordsGen
 
-class RecordsSpec extends FunSpec with Matchers {
+class CliSpec extends FunSpec with Matchers {
   describe("Output formatting") {
 
     it("Prints in the same format as the input") {
@@ -29,21 +29,6 @@ class RecordsSpec extends FunSpec with Matchers {
     }
   }
   describe("Sorting") {
-    val recordGen = for {
-      lastName      <- Gen.alphaStr
-      firstName     <- Gen.alphaStr
-      gender        <- Gen.oneOf("M", "F")
-      favoriteColor <- Gen.alphaStr
-      dateOfBirth   <- Gen.calendar
-    } yield
-      Record(
-        lastName,
-        firstName: String,
-        gender,
-        favoriteColor,
-        formatDate( dateOfBirth)
-      )
-    val recordsGen = Gen.listOf(recordGen)
     it("Sorts by view 3") {
       forAll(recordsGen) { (records: List[Record]) =>
         val sortedByLastNameDesc = sort(records, "3")
