@@ -3,7 +3,6 @@ import org.scalatra.test.scalatest._
 import org.scalatest.FunSuiteLike
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
-import scala.collection.mutable.ListBuffer
 
 class WebAppSpec extends ScalatraSuite with FunSuiteLike {
 
@@ -21,7 +20,7 @@ class WebAppSpec extends ScalatraSuite with FunSuiteLike {
 
         status should equal(200)
         val parsedBody = parse(body)
-        val records = parsedBody.extract[ListBuffer[Cli.Record]]
+        val records = parsedBody.extract[List[Cli.Record]]
         records.size should equal(1)
       }
     }
